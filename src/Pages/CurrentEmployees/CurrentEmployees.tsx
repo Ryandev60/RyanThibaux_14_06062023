@@ -6,21 +6,22 @@ import {NavLink} from "react-router-dom";
 
 const CurrentEmployees = () => {
     const columns: GridColDef[] = [
-        {field: 'firstName', headerName: 'First name', width: 130},
-        {field: 'lastName', headerName: 'Last Name', width: 130},
-        {field: 'startDate', headerName: 'Start Date', width: 130},
-        {field: 'department', headerName: 'Department', width: 130},
+        {field: 'firstName', headerName: 'First name', width: 100},
+        {field: 'lastName', headerName: 'Last name', width: 130},
+        {field: 'startDate', headerName: 'Start Date', width: 100},
+        {field: 'department', headerName: 'Department', width: 100},
         {field: 'dateOfBirth', headerName: 'DateOfBirth', width: 130},
         {field: 'street', headerName: 'Street', width: 130},
         {field: 'city', headerName: 'City', width: 130},
-        {field: 'state', headerName: 'State', width: 130},
+        {field: 'state', headerName: 'State', width: 80},
         {field: 'zipCode', headerName: 'ZipCode', width: 130},
     ];
 
     const employeesStore = useSelector(state => state.employeeReducer.employees) ?? null
     return (
-        <>
-            <div style={{height: 400, width: '100%'}}>
+        <main className={"current-employee"}>
+            <h1>Current Employees</h1>
+            <div style={{height: 400, width: '100%', maxWidth: "1090px"}}>
                 <DataGrid
                     rows={employeesStore}
                     columns={columns}
@@ -33,8 +34,8 @@ const CurrentEmployees = () => {
                     checkboxSelection
                 />
             </div>
-            <NavLink to={"/"}>Home</NavLink>
-        </>
+            <NavLink to={"/"} className={"link-home"}>Home</NavLink>
+        </main>
     );
 };
 

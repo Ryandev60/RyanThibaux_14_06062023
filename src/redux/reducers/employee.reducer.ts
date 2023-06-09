@@ -1,8 +1,9 @@
+import dataEmployees from  "../data/dataEmployee.json"
 const initialState = {
-    employees:[]
+    employees: dataEmployees
 };
 
-interface EmployeeCreateAction  {
+interface EmployeeCreateAction {
     type: "EMPLOYEE_CREATE";
     payload: object;
 }

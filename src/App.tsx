@@ -7,7 +7,6 @@ import {store, persistor} from "./redux/configureStore.ts";
 import {PersistGate} from "redux-persist/integration/react";
 
 function App() {
-
     return (
         <>
             <Provider store={store}>
