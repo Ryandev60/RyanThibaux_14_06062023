@@ -44,6 +44,7 @@ import {Modal} from "oc-modal-p14/src/Modal/Modal.tsx";
  */
 const CreateEmployee = () => {
     // Redux
+    // @ts-ignore
     const employeesStore = useSelector(state => state.employeeReducer.employees) ?? null
     const dispatch: any = useDispatch()
     // States
@@ -174,6 +175,8 @@ interface Employee {
     state: string;
     zipCode: string;
     department: string;
+    [key: string]: any;
+
 }
 
 export default CreateEmployee;

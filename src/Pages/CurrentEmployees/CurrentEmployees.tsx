@@ -39,6 +39,8 @@ const CurrentEmployees = () => {
         {field: 'zipCode', headerName: 'ZipCode', width: 130},
     ];
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const employeesStore = useSelector(state => state.employeeReducer.employees) ?? null
     return (
         <main className={"current-employee"}>
