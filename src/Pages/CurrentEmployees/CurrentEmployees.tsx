@@ -3,7 +3,29 @@ import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import {useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 
-
+/**
+ * CurrentEmployees component.
+ *
+ * This component displays a table of current employees.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered CurrentEmployees component.
+ *
+ * @example
+ * // Example usage of CurrentEmployees component
+ * <CurrentEmployees />
+ *
+ * @description
+ * The `CurrentEmployees` component renders a table that shows information about current employees. It uses the `DataGrid` component from the `@mui/x-data-grid` package to display the data in a tabular format.
+ *
+ * The table columns are defined using the `columns` array, which specifies the field names and header labels for each column.
+ *
+ * The data for the table is obtained from the Redux store using the `useSelector` hook from the `react-redux` package. The `employeesStore` variable holds the array of employee objects.
+ *
+ * The component also includes a heading displaying "Current Employees" and a navigation link to the home page.
+ *
+ * @see {@link https://mui.com/components/data-grid/ DataGrid component documentation}
+ */
 const CurrentEmployees = () => {
     const columns: GridColDef[] = [
         {field: 'firstName', headerName: 'First name', width: 100},
@@ -21,7 +43,7 @@ const CurrentEmployees = () => {
     return (
         <main className={"current-employee"}>
             <h1>Current Employees</h1>
-            <div style={{height: 400, width: '100%', maxWidth: "1090px"}}>
+            <div style={{ width: '100%', maxWidth: "1090px"}}>
                 <DataGrid
                     rows={employeesStore}
                     columns={columns}
@@ -30,7 +52,7 @@ const CurrentEmployees = () => {
                             paginationModel: {page: 0, pageSize: 5},
                         },
                     }}
-                    pageSizeOptions={[5, 10]}
+                    pageSizeOptions={[5, 10, 20]}
                     checkboxSelection
                 />
             </div>

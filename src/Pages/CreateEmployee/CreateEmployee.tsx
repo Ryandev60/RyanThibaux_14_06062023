@@ -1,6 +1,6 @@
 import './create-employee.scss'
 import {NavLink} from "react-router-dom";
-import {Box, MenuItem, TextField} from "@mui/material";
+import {Box, MenuItem, TextField } from "@mui/material";
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from "@mui/x-date-pickers";
@@ -9,18 +9,48 @@ import states from "./data/states.json"
 import departments from "./data/departments.json"
 import {useDispatch, useSelector} from "react-redux";
 import {employeeCreate} from "../../redux/actions/employee.action.ts";
-import Modal from "../../shared/Modal/Modal.tsx";
+import {Modal} from "oc-modal-p14/src/Modal/Modal.tsx";
 
-
+/**
+ * CreateEmployee component.
+ *
+ * This component allows users to create a new employee by filling out a form.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered CreateEmployee component.
+ *
+ * @example
+ * // Example usage of CreateEmployee component
+ * <CreateEmployee />
+ *
+ * @description
+ * The `CreateEmployee` component renders a form that allows users to enter information about a new employee. The form includes input fields for the employee's first name, last name, date of birth, start date, street, city, state, zip code, and department. It also includes a submit button to save the employee data.
+ *
+ * The component uses several Material-UI (Mui) components, including:
+ * - `TextField` for input fields
+ * - `Box` for form layout
+ * - `DatePicker` from `@mui/x-date-pickers/DatePicker` for date input fields
+ * - `MenuItem` for options in select fields
+ * - `LocalizationProvider` from `@mui/x-date-pickers` for date localization
+ * - `Modal` component from a custom module for displaying success/error messages
+ *
+ * The form data is submitted using the `submitForm` function, which validates the input fields and dispatches a Redux action to create the employee.
+ *
+ * @see {@link https://mui.com/components/text-fields/ TextField component documentation}
+ * @see {@link https://mui.com/system/box/ Box component documentation}
+ * @see {@link https://mui.com/components/date-picker/ DatePicker component documentation}
+ * @see {@link https://mui.com/components/menu/ MenuItem component documentation}
+ * @see {@link https://mui.com/x/api/date-pickers/localization-provider/ LocalizationProvider component documentation}
+ */
 const CreateEmployee = () => {
+    // Redux
     const employeesStore = useSelector(state => state.employeeReducer.employees) ?? null
-    console.log(employeesStore.length)
     const dispatch: any = useDispatch()
-
+    // States
     const [showModal, setShowModal] = useState<boolean>(false);
     const [textModal, setTextModal] = useState<string>("");
-
-
+    const [errorModal, setErrorModal] = useState<boolean>();
+    // Refs
     const firstNameIpt = useRef<HTMLInputElement>(null)
     const lastNameIpt = useRef<HTMLInputElement>(null)
     const dateOfBirthIpt = useRef<HTMLInputElement>(null)
@@ -30,10 +60,11 @@ const CreateEmployee = () => {
     const stateIpt = useRef<HTMLInputElement>(null)
     const zipCodeIpt = useRef<HTMLInputElement>(null)
     const departmentIpt = useRef<HTMLInputElement>(null)
-
+    const form = useRef<HTMLFormElement>(null)
+    // Data
     const listStates = states
     const departmentsList = departments
-
+    // Functions
     const submitForm = (e: FormEvent) => {
         console.log("submit")
         e.preventDefault()
@@ -49,18 +80,23 @@ const CreateEmployee = () => {
             zipCode: zipCodeIpt.current?.value || "",
             department: departmentIpt.current?.value || ""
         }
+
         const requiredFields = ['firstName', 'lastName', 'dateOfBirth', 'startDate', 'street', 'city', 'state', 'zipCode', 'department'];
 
         const fieldsWithErrors = requiredFields.filter(field => !employee[field]);
         if (fieldsWithErrors.length === 0) {
             dispatch(employeeCreate(employee));
-            setTextModal("Employee created successfully")
+            setErrorModal(false)
+            setTextModal("Employee created successfully ! 😀")
             setShowModal(!showModal)
+            form.current?.reset()
         } else {
-            setTextModal("Please fill all fields")
+            setErrorModal(true)
+            setTextModal("Please fill all fields ! ⛔️")
             setShowModal(!showModal)
         }
     }
+    // Render
     return (
         <>
             <main className={"create-employee"}>
@@ -74,6 +110,8 @@ const CreateEmployee = () => {
                     noValidate
                     autoComplete="off"
                     onSubmit={(e) => submitForm(e)}
+                        ref={form}
+
                 >
                     <div className={"form-block"}>
                         <TextField label="First Name" inputRef={firstNameIpt}/>
@@ -120,7 +158,7 @@ const CreateEmployee = () => {
                     <button type="submit" className={"btn-create-employee"}>Save</button>
                 </Box>
             </main>
-           <Modal text={textModal} showModal={showModal}/>
+           <Modal text={textModal} showModal={showModal} error={errorModal}/>
         </>
     );
 };
